@@ -52,3 +52,25 @@ export default function Board() {
 
   );
 }
+
+function calculareWinner(squares){
+  const lines = [  // Defino la constante 'lines' que es un arreglo de todas las posibles combinaciones de cuadros que podrían formar una línea ganadora
+  [0, 1, 2],  // Primera fila
+  [3, 4, 5],  // Segunda fila
+  [6, 7, 8],  // Tercera fila
+  [0, 3, 6],  // Primera columna
+  [1, 4, 7],  // Segunda columna
+  [2, 5, 8],  // Tercera columna
+  [0, 4, 8],  // Diagonal principal
+  [2, 4, 6]   // Diagonal secundaria
+  ];
+for(let i=0 ; i< lines.length ; i++){ // Utilizo un bucle 'for' para iterar a través de cada posible línea ganadora en el arreglo 'lines'
+  const [a,b,c] = lines[i];  // Desestructurao el arreglo actual en tres variables 'a', 'b' y 'c'
+  if(squares[a] && squares[a] === squares[b] && squares[a] === squares [c]){  // Verifica si los valores en los índices 'a', 'b' y 'c' del arreglo 'squares' son iguales (osea si los 3 son una "X"o"O") y no son 'null'
+    return squares[a];  // Si los valores son iguales, devuelve el valor del cuadro 'a' como ganador
+    
+  }
+}
+return null;
+
+}
