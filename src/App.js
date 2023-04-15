@@ -17,7 +17,7 @@ export default function Board() {
   const [squares , setSquares] = useState(Array(9).fill(null))
   
   function handleClick(i){
-    if(squares(i)){        //aca lo que hacemos es comprobar si el cuadrado ya esta lleno.Como un string representa un "TRUE", si esta lleno con una X o una O, genera un return y no actualiza el estado. si hay un null seria un false, por lo tanto no ejecuta esa porcion de codigo y sigue con el resto. 
+    if(squares[i]){        //aca lo que hacemos es comprobar si el cuadrado ya esta lleno.Como un string representa un "TRUE", si esta lleno con una X o una O, genera un return y no actualiza el estado. si hay un null seria un false, por lo tanto no ejecuta esa porcion de codigo y sigue con el resto. 
       return
     }
     const nextSquares = squares.slice()
