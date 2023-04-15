@@ -17,7 +17,7 @@ export default function Board() {
   const [squares , setSquares] = useState(Array(9).fill(null))
   
   function handleClick(i){
-    if(squares[i]){        //aca lo que hacemos es comprobar si el cuadrado ya esta lleno.Como un string representa un "TRUE", si esta lleno con una X o una O, genera un return y no actualiza el estado. si hay un null seria un false, por lo tanto no ejecuta esa porcion de codigo y sigue con el resto. 
+    if(squares[i] || calculateWinner(squares)){  //aca lo que hacemos es comprobar si el cuadrado ya esta lleno.Como un string representa un "TRUE", si esta lleno con una X o una O, genera un return y no actualiza el estado. si hay un null seria un false, por lo tanto no ejecuta esa porcion de codigo y sigue con el resto.Tambien al mismo tiempo verificamos si ya hay un ganador. 
       return
     }
     const nextSquares = squares.slice()
@@ -28,11 +28,23 @@ export default function Board() {
     }
     setSquares(nextSquares)
     setXIsNext(!xIsNext)
+
+    const winner= calculateWinner(squares);
+    let status;
+    if(winner){
+      status = "Ganador: " + winner;
+    }else{
+      status = "Siguiente jugador: " + (xIsNext ? "X" : "O");  //condición ? expresión_si_verdadero : expresión_si_falso
+    }
+
+
+
   }
 
   return (
 
 <React.Fragment>
+  <div className="status">{status}</div>
   <div className="board-row">
   <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
   <Square value={squares[1]} onSquareClick={() => handleClick(1)}/>
