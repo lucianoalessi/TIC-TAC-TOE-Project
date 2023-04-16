@@ -2,12 +2,9 @@ import React from 'react';
 import {useState} from "react";
 
 
-
-
 function Square({value , onSquareClick}){
   return <button className="square" onClick={onSquareClick} >{value}</button>
 }
-
 
 
 function Board({ xIsNext, squares, onPlay }) {
@@ -32,8 +29,6 @@ function Board({ xIsNext, squares, onPlay }) {
     }else{
       status = "Siguiente jugador: " + (xIsNext ? "X" : "O");  //condición ? expresión_si_verdadero : expresión_si_falso
     }
-  
-
 
   return (
 <React.Fragment>
@@ -58,14 +53,35 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function game() {
-  const [xIsNext , setXIsNext] =useState(true)
   const [history , setHistory] = useState([Array(9).fill(null)]) //es una matriz con un solo elemento, que a su vez es una matriz de 9 nulls
-  const currentSquares = history[history.length - 1 ]
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
+  
 
   function handlePlay(nextSquares){
-    setHistory([...history, nextSquares]);
-    setXIsNext(!xIsNext);
+  const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+  setHistory(nextHistory);
+  setCurrentMove(nextHistory.length - 1);
   }
+
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+  }
+
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = 'Ir al movimiento #' + move;
+    } else {
+      description = 'Ir al inicio del juego';
+    }
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
 
   return (
     <div className="game" >
@@ -73,7 +89,7 @@ export default function game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{}</ol>
+        <ol>{moves}</ol>
       </div>
     </div>
   );
@@ -99,7 +115,6 @@ for(let i=0 ; i< lines.length ; i++){ // Utilizo un bucle 'for' para iterar a tr
   }
 }
 return null;
-
 }
 
 
