@@ -10,12 +10,8 @@ function Square({value , onSquareClick}){
 
 
 
-export default function Board() {
+function Board({ xIsNext, squares, onPlay }) {
 
-
-  const [xIsNext , setXIsNext] =useState(true)
-  const [squares , setSquares] = useState(Array(9).fill(null))
-  
   function handleClick(i){
     if(squares[i] || calculateWinner(squares)){  //aca lo que hacemos es comprobar si el cuadrado ya esta lleno.Como un string representa un "TRUE", si esta lleno con una X o una O, genera un return y no actualiza el estado. si hay un null seria un false, por lo tanto no ejecuta esa porcion de codigo y sigue con el resto.Tambien al mismo tiempo verificamos si ya hay un ganador. 
       return;
@@ -26,9 +22,9 @@ export default function Board() {
     }else{
       nextSquares[i]="O";
     }
-    setSquares(nextSquares)
-    setXIsNext(!xIsNext)
+    onPlay(nextSquares);
   }
+
     const winner= calculateWinner(squares);
     let status;
     if(winner){
@@ -58,9 +54,31 @@ export default function Board() {
   <Square value={squares[8]} onSquareClick={() => handleClick(8)}/>
   </div>
   </React.Fragment>
-
   );
 }
+
+export default function game() {
+  const [xIsNext , setXIsNext] =useState(true)
+  const [history , setHistory] = useState([Array(9).fill(null)]) //es una matriz con un solo elemento, que a su vez es una matriz de 9 nulls
+  const currentSquares = history[history.length - 1 ]
+
+  function handlePlay(nextSquares){
+    setHistory([...history, nextSquares]);
+    setXIsNext(!xIsNext);
+  }
+
+  return (
+    <div className="game" >
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <ol>{}</ol>
+      </div>
+    </div>
+  );
+}
+
 
 function calculateWinner(squares){
   const lines = [  // Defino la constante 'lines' que es un arreglo de todas las posibles combinaciones de cuadros que podrían formar una línea ganadora
@@ -83,3 +101,5 @@ for(let i=0 ; i< lines.length ; i++){ // Utilizo un bucle 'for' para iterar a tr
 return null;
 
 }
+
+
