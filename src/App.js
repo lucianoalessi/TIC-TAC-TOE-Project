@@ -1,14 +1,15 @@
 import React from 'react';
 import {useState} from "react";
 
-
+// Función que renderiza un cuadrado
 function Square({value , onSquareClick}){
   return <button className="square" onClick={onSquareClick} >{value}</button>
 }
 
-
+// Función que renderiza el tablero
 function Board({ xIsNext, squares, onPlay }) {
 
+// Maneja el evento cuando se hace click en un cuadrado del tablero
   function handleClick(i){
     if(squares[i] || calculateWinner(squares)){  //aca lo que hacemos es comprobar si el cuadrado ya esta lleno.Como un string representa un "TRUE", si esta lleno con una X o una O, genera un return y no actualiza el estado. si hay un null seria un false, por lo tanto no ejecuta esa porcion de codigo y sigue con el resto.Tambien al mismo tiempo verificamos si ya hay un ganador. 
       return;
@@ -52,7 +53,9 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
+// Función principal que renderiza el juego
 export default function game() {
+  // Define los estados iniciales del juego
   const [history , setHistory] = useState([Array(9).fill(null)]) //es una matriz con un solo elemento, que a su vez es una matriz de 9 nulls
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
