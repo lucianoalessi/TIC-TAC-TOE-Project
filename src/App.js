@@ -111,7 +111,6 @@ for(let i=0 ; i< lines.length ; i++){ // Utilizo un bucle 'for' para iterar a tr
   const [a,b,c] = lines[i];  // Desestructurao el arreglo actual en tres variables 'a', 'b' y 'c'
   if(squares[a] && squares[a] === squares[b] && squares[a] === squares [c]){  // Verifica si los valores en los índices 'a', 'b' y 'c' del arreglo 'squares' son iguales (osea si los 3 son una "X"o"O") y no son 'null'
     return squares[a];  // Si los valores son iguales, devuelve el valor del cuadro 'a' como ganador
-    
   }
 }
 return null;
